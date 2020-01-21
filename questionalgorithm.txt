@@ -1,0 +1,43 @@
+# Problem
+The eight divisors of 24 are 1, 2, 3, 4, 6, 8, 12 and 24.The ten numbers not exceeding 100 having exactly eight divisors are 24, 30, 40, 42, 54, 56, 66, 70, 78 and 88.
+Let f(n) be the count of numbers not exceeding n with exactly eight divisors.You are given f(100) = 10, f(1000) = 180 and f(10^6) = 224427.Find f(10^12).
+
+Algorithm for this problem:
+
+Step 1:
+When a number 'n' is split into its prime factors p1, p2,... and each prime factors is found q1, q2, ... times then
+n = p1^{q1} * p2^{q2} * ...
+
+Step 2:
+The number of divisors is:
+d = (q1 + 1) * (q2 + 1) * ...
+
+Step 3:
+For d = 8 there are only three possible combinations:
+8 = 2 * 2 * 2 = 4 * 2 = 8 * 1
+
+Step 4:
+The first case means that n has three different prime factors p1, p2 and p3 where:
+q1 = q2 = q3 = 1 when n = p1 * p2 * p3
+
+Step 5:
+To fulfil the second case, n needs exactly two different prime factor p1 and p2 where:
+q1 = 3 and q2 = 1 when n = p1^3 * p2
+
+Step 6:
+And the third case applies n has only one prime factor p1:
+q1 = 7 when n = p1^7
+
+Step 7:
+24 has eight prime factors because of the second case: 24 = 2^3 * 3.
+
+Step 8:
+Case 1:
+ needs the most time: two nested loops iterate over all prime numbers p1 and p2 where p1 < p2.
+Adding a third nested loop for p3 (with p2 < p3) would work but take forever.
+That's where the "countPrimes(n)" function comes into play: it returns the number of prime up to "n".
+To find the number of primes p3 for p2 < p3 <= n: \#(p3) = countPrimes(n / p1 p2) - countPrimes(p2)
+Case 2:
+The second case is built on the same idea but needs only a single loops.
+Case 3:
+There are just a few numbers for the third case and a simple loop without ''countPrimes'' suffices.
